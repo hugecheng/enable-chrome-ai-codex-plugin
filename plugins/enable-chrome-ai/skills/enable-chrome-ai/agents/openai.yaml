@@ -1,0 +1,4 @@
+interface:
+  display_name: "Enable Chrome AI"
+  short_description: "Safely enable or restore Gemini in local Chrome"
+  default_prompt: "Use $enable-chrome-ai to diagnose and safely restore Gemini in my local Chrome."

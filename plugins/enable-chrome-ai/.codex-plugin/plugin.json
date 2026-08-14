@@ -1,0 +1,36 @@
+{
+  "name": "enable-chrome-ai",
+  "version": "0.1.0",
+  "description": "Apply the upstream enable-chrome-ai logic with verified backups and restore support.",
+  "author": {
+    "name": "hugecheng"
+  },
+  "repository": "https://github.com/hugecheng/enable-chrome-ai-marketplace",
+  "keywords": [
+    "chrome",
+    "gemini",
+    "ai",
+    "macos",
+    "windows",
+    "linux",
+    "backup"
+  ],
+  "skills": "./skills/",
+  "interface": {
+    "displayName": "Enable Chrome AI",
+    "shortDescription": "Run enable-chrome-ai with safe backups and restore.",
+    "longDescription": "Uses the GitHub main.py Chrome channel detection and field transformations, adding atomic writes, full-document verification, recoverable backups, and selected-backup restore.",
+    "developerName": "hugecheng",
+    "category": "Productivity",
+    "capabilities": [
+      "Local diagnostics",
+      "Backup",
+      "Configuration repair"
+    ],
+    "defaultPrompt": [
+      "Restore Gemini in my local Chrome safely.",
+      "Check whether Chrome AI eligibility is configured.",
+      "List or restore my Chrome AI configuration backups."
+    ]
+  }
+}

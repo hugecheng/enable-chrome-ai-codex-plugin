@@ -1,0 +1,20 @@
+{
+  "name": "enable-chrome-ai-marketplace",
+  "interface": {
+    "displayName": "Enable Chrome AI Marketplace"
+  },
+  "plugins": [
+    {
+      "name": "enable-chrome-ai",
+      "source": {
+        "source": "local",
+        "path": "./plugins/enable-chrome-ai"
+      },
+      "policy": {
+        "installation": "AVAILABLE",
+        "authentication": "ON_INSTALL"
+      },
+      "category": "Productivity"
+    }
+  ]
+}

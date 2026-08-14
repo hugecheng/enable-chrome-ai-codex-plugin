@@ -49,6 +49,6 @@ Run `check` after restore and report the resulting fields.
 
 - `needs_patch` is derived by applying the upstream transformation to an in-memory copy and comparing it with the file. This includes the current `Last Version` value and the upstream handling of non-boolean `is_glic_eligible` values.
 - As in upstream, `variations_permanent_consistency_country` is changed only when it already exists as a list with at least two entries; later entries are preserved.
-- The script stores backups under each Chrome channel's `Codex Backups/enable-chrome-ai` directory with owner-only permissions.
+- The script stores backups under each Chrome channel's `Codex Backups/enable-chrome-ai` directory. It sets mode `0600` on POSIX; on Windows, files inherit the Chrome user-data directory ACL.
 - If Chrome or Google later rewrites the values, diagnose the current state before rerunning. Do not loop patches automatically.
 - The field transformation and Chrome channel detection come from `https://github.com/lcandy2/enable-chrome-ai/blob/main/main.py`. The local wrapper adds backup validation, atomic writes, full-document write verification, restore support, and a command-line interface.

@@ -1,11 +1,14 @@
 {
   "name": "enable-chrome-ai",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "Apply the upstream enable-chrome-ai logic with verified backups and restore support.",
   "author": {
-    "name": "hugecheng"
+    "name": "hugecheng",
+    "url": "https://github.com/hugecheng"
   },
-  "repository": "https://github.com/hugecheng/enable-chrome-ai-marketplace",
+  "homepage": "https://github.com/hugecheng/enable-chrome-ai-codex-plugin#readme",
+  "repository": "https://github.com/hugecheng/enable-chrome-ai-codex-plugin",
+  "license": "MIT",
   "keywords": [
     "chrome",
     "gemini",
@@ -22,6 +25,7 @@
     "longDescription": "Uses the GitHub main.py Chrome channel detection and field transformations, adding atomic writes, full-document verification, recoverable backups, and selected-backup restore.",
     "developerName": "hugecheng",
     "category": "Productivity",
+    "websiteURL": "https://github.com/hugecheng/enable-chrome-ai-codex-plugin",
     "capabilities": [
       "Local diagnostics",
       "Backup",

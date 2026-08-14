@@ -1,7 +1,7 @@
 {
-  "name": "enable-chrome-ai-marketplace",
+  "name": "enable-chrome-ai-codex-plugin",
   "interface": {
-    "displayName": "Enable Chrome AI Marketplace"
+    "displayName": "Enable Chrome AI Codex Plugin"
   },
   "plugins": [
     {

@@ -246,6 +246,15 @@ def fsync_directory(directory: Path) -> None:
         os.close(descriptor)
 
 
+def fsync_file(path: Path) -> None:
+    """Flush a completed file through a descriptor valid on Windows and POSIX."""
+    descriptor = os.open(path, os.O_RDWR)
+    try:
+        os.fsync(descriptor)
+    finally:
+        os.close(descriptor)
+
+
 def atomic_write_json(path: Path, payload: dict[str, Any]) -> None:
     """Write JSON beside the target, fsync it, then atomically replace the target."""
     original_stat = path.stat()
@@ -278,8 +287,7 @@ def backup_local_state(user_data_path: str | Path, label: str) -> Path:
     destination = destination_directory / f"Local State.{label}.{timestamp}.bak"
     shutil.copy2(source, destination)
     os.chmod(destination, stat.S_IRUSR | stat.S_IWUSR)
-    with destination.open("rb") as handle:
-        os.fsync(handle.fileno())
+    fsync_file(destination)
     load_json_object(destination)
     fsync_directory(destination_directory)
     return destination

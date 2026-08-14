@@ -58,12 +58,14 @@ Codex Backups/enable-chrome-ai/
 
 ## 已测试环境
 
-当前插件已在以下环境完成测试：
+当前脚本和插件清单已在以下环境完成测试：
 
 - Intel Mac 上的 macOS 15.7.9；
 - Google Chrome Stable 151.0.7922.138；
 - Python 3.14.3；
-- Codex 本地插件 marketplace 流程。
+- Codex 插件及 marketplace 结构校验。
+
+上述两条安装命令已使用 Codex app 内置的 CLI `0.148.0-alpha.9` 核对语法。目前尚未在一台全新设备上完成 Git marketplace 端到端安装测试。
 
 Windows 和 Linux 用户数据路径及 `psutil` 进程处理路径来自上游实现，但这个派生版本尚未在真实 Windows 或 Linux 设备上测试。没有安装 `psutil` 时，macOS 和 Linux 可以使用本机进程管理后备方案；Windows 需要安装 `psutil`。
 
@@ -92,6 +94,18 @@ python3 -m unittest discover -s plugins/enable-chrome-ai/tests -v
 
 测试套件会把字段修改行为与冻结的上游 `main.py` 逻辑进行比较，验证数组尾部元素保留，测试备份、应用和恢复的完整往返，检查备份仅限所有者访问，并拒绝识别范围之外的备份路径。
 
+GitHub Actions 会在 macOS、Windows 和 Linux 上运行隔离测试。这些 CI 测试会验证与平台无关的逻辑和模拟工作流，但不能替代各系统上的真实 Chrome 修改和恢复测试。
+
+## 公开前需要补充的内容
+
+- [x] 保留上游署名和 MIT 许可证。
+- [x] 提供英文和简体中文文档。
+- [x] 说明会关闭 Chrome、备份和恢复方式以及敏感数据注意事项。
+- [x] 增加隔离测试和跨平台 CI。
+- [ ] 在真实 Windows 和 Linux Chrome 上完成修改与恢复测试。
+- [ ] 在全新设备完成安装测试后创建带版本号的 Release。
+- [ ] 如果提交到公开插件目录，补充截图或简短演示。
+
 ## 署名和许可证
 
 本仓库派生自
@@ -102,4 +116,4 @@ python3 -m unittest discover -s plugins/enable-chrome-ai/tests -v
 
 ## 报告问题
 
-报告问题时，请勿上传完整的 Chrome `Local State`、配置文件、Cookie、令牌或备份文件。只需提供 Chrome 版本、操作系统、插件版本、执行的命令和经过脱敏的错误信息。
+报告问题时，请勿上传完整的 Chrome `Local State`、配置文件、Cookie、令牌或备份文件。只需提供 Chrome 版本、操作系统、插件版本、执行的命令和经过脱敏的错误信息。涉及安全问题时，请遵循 [`SECURITY.md`](SECURITY.md)。

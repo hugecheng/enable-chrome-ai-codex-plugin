@@ -73,12 +73,16 @@ Codex Backups/enable-chrome-ai/
 
 ## Tested support
 
-The packaged plugin has been exercised on:
+The packaged script and manifests have been exercised on:
 
 - macOS 15.7.9 on Intel;
 - Google Chrome Stable 151.0.7922.138;
 - Python 3.14.3;
-- Codex's local plugin marketplace flow.
+- Codex plugin and marketplace validation.
+
+The two installation commands above were checked against the app-bundled Codex
+CLI `0.148.0-alpha.9`. A clean-machine, end-to-end Git marketplace installation
+has not yet been independently tested.
 
 The Windows and Linux user-data paths and the `psutil` process path come from
 the upstream implementation, but this derivative has not been tested on real
@@ -114,6 +118,21 @@ The test suite compares the field transformation against the upstream
 round trips, checks owner-only backup permissions, and rejects backups outside
 recognized channel directories.
 
+GitHub Actions runs the isolated test suite on macOS, Windows, and Linux. These
+CI runs validate the platform-independent logic and mocked workflows; they do
+not replace real Chrome apply/restore tests on those operating systems.
+
+## Before wider public distribution
+
+- [x] Preserve the upstream attribution and MIT license.
+- [x] Publish English and Simplified Chinese documentation.
+- [x] Document destructive effects, backups, restore, and sensitive-data rules.
+- [x] Add isolated tests and cross-platform CI.
+- [ ] Complete real Chrome apply/restore tests on Windows and Linux.
+- [ ] Create a tagged release after clean-machine installation testing.
+- [ ] Add screenshots or a short demonstration if the plugin is listed in a
+  public catalog.
+
 ## Attribution and license
 
 This repository is a derivative of
@@ -130,4 +149,5 @@ in [`NOTICE.md`](NOTICE.md).
 
 When reporting a problem, do not upload your complete Chrome `Local State`,
 profile, cookies, tokens, or backup files. Include only the Chrome version,
-operating system, plugin version, command used, and redacted error message.
+operating system, plugin version, command used, and redacted error message. For
+security-sensitive reports, follow [`SECURITY.md`](SECURITY.md).

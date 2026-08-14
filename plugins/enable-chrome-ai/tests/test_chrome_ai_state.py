@@ -197,6 +197,19 @@ class ChromeAiStateTests(unittest.TestCase):
                 with self.assertRaises(ValueError):
                     final.validated_backup(str(invalid))
 
+    def test_fsync_file_uses_read_write_descriptor(self):
+        path = Path("backup.bak")
+        with (
+            mock.patch.object(final.os, "open", return_value=42) as open_file,
+            mock.patch.object(final.os, "fsync") as fsync,
+            mock.patch.object(final.os, "close") as close,
+        ):
+            final.fsync_file(path)
+
+        open_file.assert_called_once_with(path, final.os.O_RDWR)
+        fsync.assert_called_once_with(42)
+        close.assert_called_once_with(42)
+
     def test_restore_rejects_backup_outside_channel_directory(self):
         with tempfile.TemporaryDirectory() as directory:
             root = Path(directory)

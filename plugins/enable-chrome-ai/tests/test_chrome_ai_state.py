@@ -3,6 +3,7 @@ from __future__ import annotations
 import copy
 import importlib.util
 import json
+import os
 from pathlib import Path
 import stat
 import tempfile
@@ -120,7 +121,10 @@ class ChromeAiStateTests(unittest.TestCase):
                 self.assertEqual(result["status"], "patched")
                 backup = Path(result["backup"])
                 self.assertEqual(json.loads(backup.read_text(encoding="utf-8")), original)
-                self.assertEqual(stat.S_IMODE(backup.stat().st_mode), 0o600)
+                if os.name == "nt":
+                    self.assertTrue(backup.stat().st_mode & stat.S_IWUSR)
+                else:
+                    self.assertEqual(stat.S_IMODE(backup.stat().st_mode), 0o600)
 
                 patched = final.load_json_object(state_file)
                 self.assertEqual(patched["variations_country"], "us")
@@ -129,7 +133,10 @@ class ChromeAiStateTests(unittest.TestCase):
                     [version, "us", "tail"],
                 )
                 self.assertTrue(patched["feature"]["is_glic_eligible"])
-                self.assertEqual(stat.S_IMODE(state_file.stat().st_mode), 0o600)
+                if os.name == "nt":
+                    self.assertTrue(state_file.stat().st_mode & stat.S_IWUSR)
+                else:
+                    self.assertEqual(stat.S_IMODE(state_file.stat().st_mode), 0o600)
 
                 restored = final.command_restore(str(backup))
                 self.assertEqual(restored["channel"], "stable")

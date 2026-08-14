@@ -40,7 +40,8 @@ The wrapper additionally:
 
 - detects the Stable, Canary, Dev, and Beta paths used by upstream;
 - closes the Chrome process set selected by upstream before a write;
-- creates an owner-only backup before every actual write;
+- creates a validated backup before every actual write and sets mode `0600` on
+  POSIX systems;
 - writes through a temporary file in the same directory, flushes it, and uses
   an atomic replacement;
 - reloads the result and verifies the complete JSON document;
@@ -63,6 +64,9 @@ Codex Backups/enable-chrome-ai/
   data separately backed up.
 - Run it as the same operating-system user that owns the Chrome profile. Do not
   run it with `sudo` or as an administrator unless that user owns the profile.
+- On Windows, backup files inherit the Chrome user-data directory's ACLs because
+  Python's POSIX mode bits cannot express Windows ACL ownership. Keep that
+  directory limited to your account.
 - Chrome or Google may rewrite these fields later. Do not loop the patch
   automatically; inspect the current state first.
 - This only changes local eligibility/configuration fields. It cannot guarantee
@@ -115,8 +119,9 @@ python3 -m unittest discover -s plugins/enable-chrome-ai/tests -v
 
 The test suite compares the field transformation against the upstream
 `main.py`, verifies array-tail preservation, exercises backup/apply/restore
-round trips, checks owner-only backup permissions, and rejects backups outside
-recognized channel directories.
+round trips, checks restricted POSIX backup permissions, and rejects backups
+outside recognized channel directories. Windows tests verify the file remains
+writable under the inherited profile ACL.
 
 GitHub Actions runs the isolated test suite on macOS, Windows, and Linux. These
 CI runs validate the platform-independent logic and mocked workflows; they do

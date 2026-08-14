@@ -35,7 +35,7 @@ codex plugin add enable-chrome-ai@enable-chrome-ai-codex-plugin
 
 - 检测上游支持的 Stable、Canary、Dev 和 Beta 用户数据路径；
 - 写入前关闭上游脚本所选择的 Chrome 进程；
-- 每次实际写入前创建只有文件所有者可以访问的备份；
+- 每次实际写入前创建经过验证的备份，并在 POSIX 系统上设置为 `0600` 权限；
 - 在目标文件同一目录写入临时文件，刷新到磁盘后进行原子替换；
 - 重新读取结果，并验证完整 JSON 文档；
 - 只列出经过验证的备份，并且只允许恢复已识别 Chrome 通道备份目录中的指定备份；
@@ -52,6 +52,7 @@ Codex Backups/enable-chrome-ai/
 - 应用修改或恢复备份会关闭 Chrome，可能丢失未提交的网页表单、未完成下载或其他浏览器工作。
 - 脚本会修改 Chrome 现有的 `Local State` 文件。虽然它会创建备份并使用原子写入，仍建议先审查源码，并对重要的浏览器配置单独备份。
 - 请使用拥有 Chrome 配置文件的同一个操作系统用户运行。除非管理员账户本身拥有该配置文件，否则不要使用 `sudo` 或管理员身份运行。
+- Windows 上的备份会继承 Chrome 用户数据目录的 ACL，因为 Python 的 POSIX 权限位不能表示 Windows ACL 所有权。请确保该目录只允许你的账户访问。
 - Chrome 或 Google 之后可能重新写入这些字段。不要自动循环修改；应先检查当前状态。
 - 本工具只修改本地资格和配置字段，不能保证 Gemini 一定出现。账号类型或年龄、组织策略、登录状态、设备地区、产品可用性及分批发布仍可能产生影响。
 - 本项目与 Google、Chromium、OpenAI 及上游项目作者没有隶属或背书关系。使用风险由用户自行承担。
@@ -92,7 +93,7 @@ python3 plugins/enable-chrome-ai/skills/enable-chrome-ai/scripts/chrome_ai_state
 python3 -m unittest discover -s plugins/enable-chrome-ai/tests -v
 ```
 
-测试套件会把字段修改行为与冻结的上游 `main.py` 逻辑进行比较，验证数组尾部元素保留，测试备份、应用和恢复的完整往返，检查备份仅限所有者访问，并拒绝识别范围之外的备份路径。
+测试套件会把字段修改行为与冻结的上游 `main.py` 逻辑进行比较，验证数组尾部元素保留，测试备份、应用和恢复的完整往返，检查 POSIX 备份权限，并拒绝识别范围之外的备份路径。Windows 测试会确认文件在继承的配置目录 ACL 下仍可写。
 
 GitHub Actions 会在 macOS、Windows 和 Linux 上运行隔离测试。这些 CI 测试会验证与平台无关的逻辑和模拟工作流，但不能替代各系统上的真实 Chrome 修改和恢复测试。
 

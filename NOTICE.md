@@ -14,7 +14,7 @@ The derivative wrapper adds:
 
 - Codex plugin and marketplace packaging;
 - a read-only inspection command;
-- validated, owner-only backups;
+- validated backups with POSIX mode `0600` and inherited Windows profile ACLs;
 - atomic JSON replacement with file and directory synchronization;
 - complete-document write verification;
 - validated backup listing and selected-backup restore;

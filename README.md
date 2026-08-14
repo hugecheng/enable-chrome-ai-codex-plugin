@@ -1,4 +1,6 @@
-# Enable Chrome AI — Codex Plugin Marketplace
+# Enable Chrome AI — Codex Plugin
+
+[English](README.md) | [简体中文](README.zh-CN.md)
 
 A Codex plugin that packages the field transformation from
 [`lcandy2/enable-chrome-ai`](https://github.com/lcandy2/enable-chrome-ai) and
@@ -14,8 +16,8 @@ configuration.
 Add this Git marketplace and install the plugin:
 
 ```bash
-codex plugin marketplace add hugecheng/enable-chrome-ai-marketplace --ref main
-codex plugin add enable-chrome-ai@enable-chrome-ai-marketplace
+codex plugin marketplace add hugecheng/enable-chrome-ai-codex-plugin --ref main
+codex plugin add enable-chrome-ai@enable-chrome-ai-codex-plugin
 ```
 
 Start a new Codex task after installation so the plugin is loaded, then ask:
